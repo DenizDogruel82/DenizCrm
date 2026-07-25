@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SaaS AI CRM | Ana Sayfa</title>
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="/dashboard.html"><span>S</span> SaaS AI CRM</a>
+      <nav>
+        <a class="active" href="/dashboard.html">Genel Bakış</a>
+        <a href="#">Müşteriler</a>
+        <a href="#">Kişiler</a>
+        <a href="#">Potansiyel Müşteriler</a>
+        <a href="#">Fırsatlar</a>
+        <a href="#">Aktiviteler</a>
+        <a href="#">AI İçgörüleri</a>
+      </nav>
+      <button id="logoutButton" class="logout" type="button">Çıkış yap</button>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">CRM ANA SAYFASI</p>
+          <h1>Merhaba, <span id="userName">Kullanıcı</span></h1>
+          <p class="muted">Satış operasyonunuzun bugünkü görünümü.</p>
+        </div>
+        <div class="avatar" id="avatar">K</div>
+      </header>
+
+      <section class="metrics">
+        <article><p>Toplam müşteri</p><strong>0</strong><small>Henüz veri yok</small></article>
+        <article><p>Aktif fırsat</p><strong>0</strong><small>Pipeline bekleniyor</small></article>
+        <article><p>Planlı aktivite</p><strong>0</strong><small>Bugün için</small></article>
+        <article class="ai"><p>AI önerileri</p><strong>0</strong><small>Analiz bekleniyor</small></article>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <div class="panel-title"><h2>Satış pipeline</h2><span>Bu ay</span></div>
+          <div class="empty">
+            <div class="empty-icon">↗</div>
+            <h3>İlk fırsatınızı oluşturun</h3>
+            <p>Satış sürecinizi takip etmek için fırsat ekleyin.</p>
+          </div>
+        </article>
+        <article class="panel">
+          <div class="panel-title"><h2>AI asistan</h2><span class="online">Hazır</span></div>
+          <div class="assistant">
+            <div class="spark">✦</div>
+            <h3>Bugün neye odaklanmalısınız?</h3>
+            <p>CRM verileri oluştuğunda AI asistanınız riskleri, fırsatları ve sonraki en iyi aksiyonu burada gösterecek.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script src="/dashboard.js"></script>
+</body>
+</html>
