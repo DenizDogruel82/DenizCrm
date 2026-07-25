@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SaaS AI CRM | Giriş</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="layout">
+    <section class="intro">
+      <a class="brand" href="/" aria-label="SaaS AI CRM">
+        <span class="logo">S</span>
+        <span>SaaS AI CRM</span>
+      </a>
+      <div>
+        <p class="eyebrow">AI DESTEKLİ MÜŞTERİ YÖNETİMİ</p>
+        <h1>Satış ekibiniz için daha akıllı bir çalışma alanı.</h1>
+        <p class="lead">Müşteri ilişkilerini tek merkezden yönetin, fırsatları yapay zekâ ile önceliklendirin.</p>
+      </div>
+      <p class="copyright">© 2026 SaaS AI CRM</p>
+    </section>
+
+    <section class="login">
+      <form id="loginForm" class="card">
+        <div>
+          <p class="eyebrow">HOŞ GELDİNİZ</p>
+          <h2>Hesabınıza giriş yapın</h2>
+          <p class="muted">Devam etmek için bilgilerinizi girin.</p>
+        </div>
+
+        <label>
+          E-posta
+          <input id="email" name="email" type="email" autocomplete="username"
+                 value="admin@saasaicrm.com" required>
+        </label>
+        <label>
+          Parola
+          <span class="password-wrap">
+            <input id="password" name="password" type="password"
+                   autocomplete="current-password" value="Admin123!" required>
+            <button id="togglePassword" class="toggle" type="button" aria-label="Parolayı göster">Göster</button>
+          </span>
+        </label>
+
+        <p id="message" class="message" role="alert" aria-live="polite"></p>
+        <button id="submitButton" class="submit" type="submit">Giriş yap</button>
+        <p class="demo">Demo: admin@saasaicrm.com / Admin123!</p>
+      </form>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
