@@ -12,6 +12,7 @@ internal sealed class InMemoryUserRepository : IUserRepository
     {
         var admin = new User
         {
+            TenantId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
             Email = "admin@saasaicrm.com",
             FullName = "CRM Yöneticisi",
             PasswordHash = string.Empty
