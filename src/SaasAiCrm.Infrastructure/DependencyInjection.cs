@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using SaasAiCrm.Application.Abstractions.Authentication;
 using SaasAiCrm.Application.Abstractions.Persistence;
 using SaasAiCrm.Infrastructure.Authentication;
@@ -13,6 +14,17 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException(
+                "Connection string 'DefaultConnection' is missing.");
+
+        services.AddDbContext<CrmDbContext>(options =>
+            options.UseSqlServer(connectionString, sql =>
+                sql.MigrationsAssembly(typeof(CrmDbContext).Assembly.FullName)
+                    .EnableRetryOnFailure()));
+        services.AddScoped<IUnitOfWork>(provider =>
+            provider.GetRequiredService<CrmDbContext>());
+
         services.AddOptions<JwtOptions>()
             .Bind(configuration.GetSection(JwtOptions.SectionName))
             .Validate(x =>
