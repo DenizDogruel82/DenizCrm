@@ -3,21 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Deniz CRM | Ana Sayfa</title>
+  <title>Deniz CRM | Yönetim Paneli</title>
   <link rel="stylesheet" href="/dashboard.css">
 </head>
 <body>
   <div class="shell">
     <aside class="sidebar">
-      <a class="brand" href="/dashboard.html"><span>D</span> Deniz CRM</a>
+      <a class="brand" href="#overview"><span>D</span> Deniz CRM</a>
       <nav>
-        <a class="active" href="/dashboard.html">Genel Bakış</a>
-        <a href="#">Müşteriler</a>
-        <a href="#">Kişiler</a>
-        <a href="#">Potansiyel Müşteriler</a>
-        <a href="#">Fırsatlar</a>
-        <a href="#">Aktiviteler</a>
-        <a href="#">AI İçgörüleri</a>
+        <button class="nav-link active" data-view="overview">Genel Bakış</button>
+        <button class="nav-link" data-view="customers">Müşteriler</button>
+        <button class="nav-link" data-view="activities">Aktiviteler</button>
+        <a href="/swagger" target="_blank">API / Swagger</a>
       </nav>
       <button id="logoutButton" class="logout" type="button">Çıkış yap</button>
     </aside>
@@ -25,37 +22,90 @@
     <main>
       <header>
         <div>
-          <p class="eyebrow">CRM ANA SAYFASI</p>
-          <h1>Merhaba, <span id="userName">Kullanıcı</span></h1>
-          <p class="muted">Satış operasyonunuzun bugünkü görünümü.</p>
+          <p class="eyebrow" id="pageEyebrow">CRM ANA SAYFASI</p>
+          <h1 id="pageTitle">Merhaba, <span id="userName">Kullanıcı</span></h1>
+          <p class="muted" id="pageDescription">Satış operasyonunuzun bugünkü görünümü.</p>
         </div>
         <div class="avatar" id="avatar">K</div>
       </header>
 
-      <section class="metrics">
-        <article><p>Toplam müşteri</p><strong>0</strong><small>Henüz veri yok</small></article>
-        <article><p>Aktif fırsat</p><strong>0</strong><small>Pipeline bekleniyor</small></article>
-        <article><p>Planlı aktivite</p><strong>0</strong><small>Bugün için</small></article>
-        <article class="ai"><p>AI önerileri</p><strong>0</strong><small>Analiz bekleniyor</small></article>
+      <p id="notification" class="notification" role="status"></p>
+
+      <section id="overviewView" class="view active">
+        <div class="metrics">
+          <article><p>Toplam müşteri</p><strong id="customerCount">0</strong><small>CRM kayıtları</small></article>
+          <article><p>Aktif fırsat</p><strong id="opportunityCount">0</strong><small>Satış pipeline</small></article>
+          <article><p>Planlı aktivite</p><strong id="activityCount">0</strong><small>Takip bekliyor</small></article>
+          <article class="ai"><p>AI önerileri</p><strong id="insightCount">0</strong><small>Aktif içgörüler</small></article>
+        </div>
+        <div class="grid">
+          <article class="panel">
+            <div class="panel-title"><h2>Son müşteriler</h2><button data-go="customers">Tümünü gör</button></div>
+            <div id="recentCustomers" class="list"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-title"><h2>AI asistan</h2><span class="online">Hazır</span></div>
+            <div class="assistant">
+              <div class="spark">✦</div>
+              <h3>Verileriniz tek merkezde</h3>
+              <p>Müşteri ve aktivite verileri artık Deniz CRM API ile canlı olarak senkronize ediliyor.</p>
+            </div>
+          </article>
+        </div>
       </section>
 
-      <section class="grid">
-        <article class="panel">
-          <div class="panel-title"><h2>Satış pipeline</h2><span>Bu ay</span></div>
-          <div class="empty">
-            <div class="empty-icon">↗</div>
-            <h3>İlk fırsatınızı oluşturun</h3>
-            <p>Satış sürecinizi takip etmek için fırsat ekleyin.</p>
+      <section id="customersView" class="view">
+        <div class="toolbar">
+          <input id="customerSearch" type="search" placeholder="Müşteri ara…">
+          <button id="showCustomerForm" class="primary" type="button">Yeni müşteri</button>
+        </div>
+        <form id="customerForm" class="editor hidden">
+          <h2>Müşteri ekle</h2>
+          <div class="form-grid">
+            <label>Şirket adı<input name="name" required maxlength="200"></label>
+            <label>E-posta<input name="email" type="email"></label>
+            <label>Telefon<input name="phone"></label>
+            <label>Sektör<input name="industry"></label>
+            <label>Şehir<input name="city"></label>
+            <label>Ülke<input name="country" value="Türkiye"></label>
           </div>
-        </article>
-        <article class="panel">
-          <div class="panel-title"><h2>AI asistan</h2><span class="online">Hazır</span></div>
-          <div class="assistant">
-            <div class="spark">✦</div>
-            <h3>Bugün neye odaklanmalısınız?</h3>
-            <p>CRM verileri oluştuğunda AI asistanınız riskleri, fırsatları ve sonraki en iyi aksiyonu burada gösterecek.</p>
+          <div class="actions">
+            <button class="secondary cancel-form" type="button">Vazgeç</button>
+            <button class="primary" type="submit">Kaydet</button>
           </div>
-        </article>
+        </form>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Müşteri</th><th>İletişim</th><th>Sektör</th><th>Konum</th><th></th></tr></thead>
+            <tbody id="customersTable"></tbody>
+          </table>
+          <div id="customersEmpty" class="empty-state hidden">Henüz müşteri kaydı yok.</div>
+        </div>
+      </section>
+
+      <section id="activitiesView" class="view">
+        <div class="toolbar">
+          <div></div>
+          <button id="showActivityForm" class="primary" type="button">Yeni aktivite</button>
+        </div>
+        <form id="activityForm" class="editor hidden">
+          <h2>Aktivite planla</h2>
+          <div class="form-grid">
+            <label>Konu<input name="subject" required maxlength="200"></label>
+            <label>Tür
+              <select name="type"><option value="1">Arama</option><option value="3">Toplantı</option><option value="4">Görev</option><option value="5">Demo</option></select>
+            </label>
+            <label>Müşteri<select id="activityCustomer" name="customerId" required></select></label>
+            <label>Tarih<input name="dueAtUtc" type="datetime-local" required></label>
+            <label class="wide">Açıklama<textarea name="description" rows="3"></textarea></label>
+          </div>
+          <div class="actions">
+            <button class="secondary cancel-form" type="button">Vazgeç</button>
+            <button class="primary" type="submit">Planla</button>
+          </div>
+        </form>
+        <div id="activitiesList" class="cards"></div>
+        <div id="activitiesEmpty" class="empty-state hidden">Planlanmış aktivite bulunmuyor.</div>
       </section>
     </main>
   </div>

@@ -20,21 +20,12 @@ form.addEventListener("submit", async (event) => {
     const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: form.email.value,
-        password: form.password.value
-      })
+      body: JSON.stringify({ email: form.email.value, password: form.password.value })
     });
     const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(result.detail || "Giriş sırasında bir hata oluştu.");
-    }
-
+    if (!response.ok) throw new Error(result.detail || "Giriş sırasında bir hata oluştu.");
     sessionStorage.setItem("accessToken", result.accessToken);
     sessionStorage.setItem("currentUser", JSON.stringify(result.user));
-    message.classList.add("success");
-    message.textContent = `Hoş geldiniz, ${result.user.fullName}. Giriş başarılı.`;
     window.location.replace("/dashboard.html");
   } catch (error) {
     message.textContent = error.message;
