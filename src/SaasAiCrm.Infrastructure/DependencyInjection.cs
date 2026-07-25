@@ -5,6 +5,10 @@ using SaasAiCrm.Application.Abstractions.Authentication;
 using SaasAiCrm.Application.Abstractions.Persistence;
 using SaasAiCrm.Infrastructure.Authentication;
 using SaasAiCrm.Infrastructure.Persistence;
+using SaasAiCrm.Application.Abstractions.Caching;
+using SaasAiCrm.Application.Abstractions.Communication;
+using SaasAiCrm.Infrastructure.Caching;
+using SaasAiCrm.Infrastructure.Email;
 
 namespace SaasAiCrm.Infrastructure;
 
@@ -34,6 +38,16 @@ public static class DependencyInjection
         services.AddScoped<INoteRepository, NoteRepository>();
         services.AddScoped<IAiInsightRepository, AiInsightRepository>();
         services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+        services.AddMemoryCache();
+        services.AddSingleton<ICacheService, MemoryCacheService>();
+        services.AddOptions<EmailOptions>()
+            .Bind(configuration.GetSection(EmailOptions.SectionName))
+            .Validate(x => !x.Enabled ||
+                           (!string.IsNullOrWhiteSpace(x.Host) &&
+                            !string.IsNullOrWhiteSpace(x.FromAddress)),
+                "SMTP host and sender address are required when email is enabled.")
+            .ValidateOnStart();
+        services.AddTransient<IEmailSender, SmtpEmailSender>();
 
         services.AddOptions<JwtOptions>()
             .Bind(configuration.GetSection(JwtOptions.SectionName))
