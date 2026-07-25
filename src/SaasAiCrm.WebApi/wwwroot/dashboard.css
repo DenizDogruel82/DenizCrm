@@ -49,11 +49,13 @@ h1 { margin: .45rem 0; font-size: 2.1rem; letter-spacing: -.04em; }
 .notification { min-height: 1.4rem; margin: -1rem 0 1rem; color: #67dfa9; font-size: .88rem; }
 .notification.error { color: #ff8996; }
 .toolbar { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.toolbar h2 { margin: 0; }
 input, select, textarea { width: 100%; padding: .8rem .9rem; border: 1px solid var(--line); border-radius: .6rem; background: #0e111b; color: white; font: inherit; outline: none; }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 .toolbar input { max-width: 340px; }
 button.primary, button.secondary, button.danger { border-radius: .6rem; padding: .75rem 1rem; font: inherit; font-weight: 700; cursor: pointer; }
 button.primary { border: 0; background: var(--accent); color: white; }
+button.mini { padding: .4rem .7rem; font-size: .75rem; }
 button.secondary { border: 1px solid var(--line); background: transparent; color: #d5d9e3; }
 button.danger { padding: .4rem .7rem; border: 0; background: rgba(255,80,100,.12); color: #ff8996; }
 .editor { margin-bottom: 1rem; padding: 1.3rem; border: 1px solid var(--line); border-radius: .9rem; background: var(--panel); }
@@ -62,6 +64,7 @@ button.danger { padding: .4rem .7rem; border: 0; background: rgba(255,80,100,.12
 .form-grid label { display: grid; gap: .45rem; color: #aab3c3; font-size: .8rem; }
 .form-grid .wide { grid-column: 1 / -1; }
 .actions { display: flex; justify-content: flex-end; gap: .7rem; margin-top: 1rem; }
+.actions.compact { margin: 0; }
 .hidden { display: none !important; }
 .table-wrap { overflow: auto; border: 1px solid var(--line); border-radius: .9rem; background: var(--panel); }
 table { width: 100%; border-collapse: collapse; }
@@ -80,6 +83,12 @@ th { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-s
 .activity-card p { margin: 0 0 .4rem; color: var(--muted); }
 .badge { display: inline-block; padding: .25rem .5rem; border-radius: 999px; background: rgba(124,92,255,.14); color: #a996ff; font-size: .7rem; }
 .card-actions { display: flex; gap: .5rem; }
+.row-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .7rem; }
+dialog { width: min(720px, calc(100% - 2rem)); max-height: 90vh; overflow: auto; border: 1px solid var(--line); border-radius: 1rem; background: var(--panel); color: white; }
+dialog::backdrop { background: rgba(0,0,0,.72); }
+.dialog-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.dialog-title h2 { margin: 0; }
+.dialog-title button { border: 0; background: none; color: white; font-size: 1.8rem; cursor: pointer; }
 @media (max-width: 900px) {
   .shell { grid-template-columns: 1fr; }
   .sidebar { position: static; height: auto; }

@@ -77,7 +77,10 @@
       <section id="contactsView" class="view">
         <div class="toolbar">
           <select id="relatedCustomer"><option value="">Müşteri seçin</option></select>
-          <span></span>
+          <div class="actions compact">
+            <button id="newContact" class="primary" type="button">Yeni kişi</button>
+            <button id="newNote" class="secondary" type="button">Yeni not</button>
+          </div>
         </div>
         <div class="grid">
           <section class="panel">
@@ -92,12 +95,12 @@
       </section>
 
       <section id="leadsView" class="view">
-        <div class="panel-title page-title"><h2>Potansiyel Müşteriler</h2><span>API canlı verisi</span></div>
+        <div class="toolbar"><h2>Potansiyel Müşteriler</h2><button id="newLead" class="primary" type="button">Yeni lead</button></div>
         <div class="table-wrap"><table><thead><tr><th>Ad Soyad</th><th>Şirket</th><th>İletişim</th><th>Durum</th><th>Skor</th></tr></thead><tbody id="leadRows"></tbody></table></div>
       </section>
 
       <section id="opportunitiesView" class="view">
-        <div class="panel-title page-title"><h2>Satış Fırsatları</h2><span>Pipeline aşamalarıyla</span></div>
+        <div class="toolbar"><h2>Satış Fırsatları</h2><button id="newOpportunity" class="primary" type="button">Yeni fırsat</button></div>
         <div class="table-wrap"><table><thead><tr><th>Başlık</th><th>Müşteri</th><th>Aşama</th><th>Tutar</th><th>Olasılık</th></tr></thead><tbody id="opportunityRows"></tbody></table></div>
       </section>
 
@@ -124,19 +127,26 @@
       </section>
 
       <section id="aiView" class="view">
-        <div class="panel-title page-title"><h2>AI İçgörüleri</h2><span>Model çıktıları</span></div>
+        <div class="toolbar"><h2>AI İçgörüleri</h2><button id="newInsight" class="primary" type="button">Yeni içgörü</button></div>
         <div id="aiCards" class="cards"></div>
       </section>
 
       <section id="adminView" class="view">
         <div class="grid">
-          <section class="panel"><div class="panel-title"><h2>Kullanıcılar</h2></div><div id="userCards" class="cards"></div></section>
+          <section class="panel"><div class="panel-title"><h2>Kullanıcılar</h2><button id="newUser" class="primary mini" type="button">Ekle</button></div><div id="userCards" class="cards"></div></section>
           <section class="panel"><div class="panel-title"><h2>Abonelik & Tenant</h2></div><div id="accountCards" class="cards"></div></section>
         </div>
-        <section class="panel stages-panel"><div class="panel-title"><h2>Pipeline Aşamaları</h2></div><div id="stageCards" class="cards"></div></section>
+        <section class="panel stages-panel"><div class="panel-title"><h2>Pipeline Aşamaları</h2><button id="newStage" class="primary mini" type="button">Ekle</button></div><div id="stageCards" class="cards"></div></section>
       </section>
     </main>
   </div>
+  <dialog id="entityDialog">
+    <form id="entityForm" method="dialog">
+      <div class="dialog-title"><h2 id="dialogTitle">Kayıt</h2><button id="closeDialog" type="button">×</button></div>
+      <div id="dialogFields" class="form-grid"></div>
+      <div class="actions"><button id="cancelDialog" class="secondary" type="button">Vazgeç</button><button class="primary" type="submit">Kaydet</button></div>
+    </form>
+  </dialog>
   <script src="/dashboard.js"></script>
 </body>
 </html>
