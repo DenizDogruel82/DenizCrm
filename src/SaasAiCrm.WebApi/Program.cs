@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using SaasAiCrm.Application;
 using SaasAiCrm.Application.Abstractions.Authentication;
 using SaasAiCrm.Infrastructure;
@@ -37,12 +38,39 @@ builder.Services.AddAuthorization();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Deniz CRM API",
+        Version = "v1",
+        Description = "AI destekli SaaS CRM servisleri"
+    });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "Login endpoint’inden alınan JWT access token"
+    });
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("Bearer", document, null)] = []
+    });
+});
 
 var app = builder.Build();
 
 await app.Services.InitializeDatabaseAsync();
 
 app.UseExceptionHandler();
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Deniz CRM API v1");
+    options.DocumentTitle = "Deniz CRM API";
+});
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseHttpsRedirection();

@@ -1,4 +1,4 @@
-# SaaS AI CRM
+# Deniz CRM
 
 .NET 10 ve Clean Architecture yaklaşımıyla geliştirilen AI destekli CRM başlangıç projesi.
 
