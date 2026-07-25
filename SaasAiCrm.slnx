@@ -5,4 +5,7 @@
     <Project Path="src/SaasAiCrm.Infrastructure/SaasAiCrm.Infrastructure.csproj" />
     <Project Path="src/SaasAiCrm.WebApi/SaasAiCrm.WebApi.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SaasAiCrm.UnitTests/SaasAiCrm.UnitTests.csproj" />
+  </Folder>
 </Solution>
