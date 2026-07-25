@@ -12,7 +12,7 @@ body { margin: 0; }
 .shell { min-height: 100vh; display: grid; grid-template-columns: 245px 1fr; }
 .sidebar {
   position: sticky; top: 0; height: 100vh; padding: 1.8rem 1.2rem;
-  display: flex; flex-direction: column; border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; overflow-y: auto; border-right: 1px solid var(--line);
   background: #0e111b;
 }
 .brand { display: flex; align-items: center; gap: .7rem; padding: 0 .6rem 1.8rem; color: white; font-weight: 800; text-decoration: none; }
@@ -69,6 +69,12 @@ th, td { padding: 1rem; border-bottom: 1px solid var(--line); text-align: left; 
 th { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; }
 .empty-state { padding: 2.5rem; color: var(--muted); text-align: center; }
 .cards { display: grid; gap: .8rem; }
+.page-title { margin-bottom: 1rem; }
+.stages-panel { margin-top: 1rem; }
+.data-card { padding: 1rem; border: 1px solid var(--line); border-radius: .7rem; background: #0e111b; }
+.data-card h3 { margin: 0 0 .4rem; font-size: .95rem; }
+.data-card p { margin: .25rem 0; color: var(--muted); font-size: .82rem; }
+.toolbar select { max-width: 360px; }
 .activity-card { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--panel); }
 .activity-card h3 { margin: .5rem 0 .2rem; }
 .activity-card p { margin: 0 0 .4rem; color: var(--muted); }
