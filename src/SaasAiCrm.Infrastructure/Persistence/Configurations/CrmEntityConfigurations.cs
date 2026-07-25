@@ -40,7 +40,7 @@ internal sealed class UserConfiguration : TenantEntityConfiguration<User>
         builder.Property(x => x.FullName).HasMaxLength(150).IsRequired();
         builder.Property(x => x.PasswordHash).HasMaxLength(500).IsRequired();
         builder.Property(x => x.Role).HasMaxLength(50).IsRequired();
-        builder.HasIndex(x => new { x.TenantId, x.Email }).IsUnique();
+        builder.HasIndex(x => x.Email).IsUnique();
     }
 }
 

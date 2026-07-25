@@ -8,7 +8,7 @@ using SaasAiCrm.Domain.Entities;
 namespace SaasAiCrm.Application.Users;
 
 public sealed class UserCommandHandlers(IUserRepository repository, IPasswordService passwords,
-    ICurrentUser current) : ICommandHandler<CreateUserCommand, UserDto>,
+    IUnitOfWork unit, ICurrentUser current) : ICommandHandler<CreateUserCommand, UserDto>,
     ICommandHandler<UpdateUserCommand, UserDto?>, ICommandHandler<DeleteUserCommand, bool>
 {
     public async Task<UserDto> HandleAsync(CreateUserCommand c, CancellationToken ct = default)
@@ -17,18 +17,19 @@ public sealed class UserCommandHandlers(IUserRepository repository, IPasswordSer
             CreatedByUserId = current.UserId, Email = d.Email.Trim().ToLowerInvariant(),
             FullName = d.FullName, PasswordHash = string.Empty, Role = d.Role };
         e.PasswordHash = passwords.Hash(e, d.Password);
-        await repository.AddAsync(e, ct); return e.ToDto();
+        await repository.AddAsync(e, ct); await unit.SaveChangesAsync(ct); return e.ToDto();
     }
     public async Task<UserDto?> HandleAsync(UpdateUserCommand c, CancellationToken ct = default)
     {
         var e = await repository.GetByIdAsync(current.TenantId, c.Id, ct); if (e is null) return null;
         e.FullName = c.User.FullName; e.Role = c.User.Role; e.IsActive = c.User.IsActive;
-        e.UpdatedAtUtc = DateTime.UtcNow; repository.Update(e); return e.ToDto();
+        e.UpdatedAtUtc = DateTime.UtcNow; repository.Update(e);
+        await unit.SaveChangesAsync(ct); return e.ToDto();
     }
     public async Task<bool> HandleAsync(DeleteUserCommand c, CancellationToken ct = default)
     {
         var e = await repository.GetByIdAsync(current.TenantId, c.Id, ct); if (e is null) return false;
-        repository.Remove(e); return true;
+        repository.Remove(e); await unit.SaveChangesAsync(ct); return true;
     }
 }
 

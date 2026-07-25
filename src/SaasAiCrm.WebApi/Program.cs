@@ -7,6 +7,7 @@ using SaasAiCrm.Infrastructure;
 using SaasAiCrm.Infrastructure.Authentication;
 using SaasAiCrm.Application.Abstractions.Authentication;
 using SaasAiCrm.WebApi.Services;
+using SaasAiCrm.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwt = builder.Configuration.GetRequiredSection(JwtOptions.SectionName).Get<JwtOptions>()
@@ -36,6 +37,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();
+
+await app.Services.InitializeDatabaseAsync();
 
 app.UseExceptionHandler();
 app.UseDefaultFiles();

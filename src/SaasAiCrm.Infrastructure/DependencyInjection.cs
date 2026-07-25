@@ -44,7 +44,7 @@ public static class DependencyInjection
             .Validate(x => x.Key.Length >= 32, "JWT key must be at least 32 characters.")
             .ValidateOnStart();
         services.AddSingleton<IPasswordService, PasswordService>();
-        services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+        services.AddScoped<IUserRepository, EfUserRepository>();
         services.AddSingleton<ITokenService, JwtTokenService>();
         return services;
     }
