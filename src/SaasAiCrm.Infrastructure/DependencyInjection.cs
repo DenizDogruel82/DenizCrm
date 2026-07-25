@@ -15,10 +15,7 @@ public static class DependencyInjection
     {
         services.AddOptions<JwtOptions>()
             .Bind(configuration.GetSection(JwtOptions.SectionName))
-            .Validate(x =>
-                !string.IsNullOrWhiteSpace(x.Issuer) &&
-                !string.IsNullOrWhiteSpace(x.Audience),
-                "JWT issuer and audience are required.")
+            .ValidateDataAnnotations()
             .Validate(x => x.Key.Length >= 32, "JWT key must be at least 32 characters.")
             .ValidateOnStart();
         services.AddSingleton<IPasswordService, PasswordService>();

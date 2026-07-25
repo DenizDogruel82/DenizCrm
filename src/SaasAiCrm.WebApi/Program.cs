@@ -67,8 +67,8 @@ app.MapPost("/api/auth/login", async (
 
 app.MapGet("/api/auth/me", (System.Security.Claims.ClaimsPrincipal user) => Results.Ok(new
 {
-    id = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
-    email = user.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value,
+    id = user.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value,
+    email = user.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email)?.Value,
     fullName = user.Identity?.Name,
     role = user.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
 })).RequireAuthorization();
