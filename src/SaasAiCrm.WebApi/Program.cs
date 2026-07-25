@@ -2,12 +2,12 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using SaasAiCrm.Application;
-using SaasAiCrm.Application.Authentication.Login;
+using SaasAiCrm.Application.Abstractions.Authentication;
 using SaasAiCrm.Infrastructure;
 using SaasAiCrm.Infrastructure.Authentication;
-using SaasAiCrm.Application.Abstractions.Authentication;
-using SaasAiCrm.WebApi.Services;
 using SaasAiCrm.Infrastructure.Persistence;
+using SaasAiCrm.WebApi.Infrastructure;
+using SaasAiCrm.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwt = builder.Configuration.GetRequiredSection(JwtOptions.SectionName).Get<JwtOptions>()
@@ -35,6 +35,8 @@ builder.Services
     });
 builder.Services.AddAuthorization();
 builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -47,42 +49,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapPost("/api/auth/login", async (
-    LoginRequest request,
-    LoginHandler handler,
-    CancellationToken cancellationToken) =>
-{
-    if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
-    {
-        return Results.ValidationProblem(new Dictionary<string, string[]>
-        {
-            ["credentials"] = ["E-posta ve parola zorunludur."]
-        });
-    }
-
-    var response = await handler.HandleAsync(
-        new LoginCommand(request.Email, request.Password),
-        cancellationToken);
-
-    return response is null
-        ? Results.Problem(
-            statusCode: StatusCodes.Status401Unauthorized,
-            title: "Giriş başarısız",
-            detail: "E-posta veya parola hatalı.")
-        : Results.Ok(response);
-}).AllowAnonymous();
-
-app.MapGet("/api/auth/me", (System.Security.Claims.ClaimsPrincipal user) => Results.Ok(new
-{
-    id = user.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value,
-    email = user.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email)?.Value,
-    fullName = user.Identity?.Name,
-    role = user.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
-})).RequireAuthorization();
-
+app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.Run();
-
-public sealed record LoginRequest(string Email, string Password);
 
 public partial class Program;
