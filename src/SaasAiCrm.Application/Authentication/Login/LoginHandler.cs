@@ -1,4 +1,5 @@
 using SaasAiCrm.Application.Abstractions.Authentication;
+using SaasAiCrm.Application.Abstractions.Messaging;
 using SaasAiCrm.Application.Abstractions.Persistence;
 
 namespace SaasAiCrm.Application.Authentication.Login;
@@ -6,7 +7,7 @@ namespace SaasAiCrm.Application.Authentication.Login;
 public sealed class LoginHandler(
     IUserRepository users,
     IPasswordService passwords,
-    ITokenService tokens)
+    ITokenService tokens) : ICommandHandler<LoginCommand, LoginResponse?>
 {
     public async Task<LoginResponse?> HandleAsync(
         LoginCommand command,

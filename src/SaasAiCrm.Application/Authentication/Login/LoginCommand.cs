@@ -1,6 +1,8 @@
+using SaasAiCrm.Application.Abstractions.Messaging;
+
 namespace SaasAiCrm.Application.Authentication.Login;
 
-public sealed record LoginCommand(string Email, string Password);
+public sealed record LoginCommand(string Email, string Password) : ICommand<LoginResponse?>;
 
 public sealed record LoginResponse(
     string AccessToken,
