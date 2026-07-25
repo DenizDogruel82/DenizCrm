@@ -5,6 +5,8 @@ using SaasAiCrm.Application;
 using SaasAiCrm.Application.Authentication.Login;
 using SaasAiCrm.Infrastructure;
 using SaasAiCrm.Infrastructure.Authentication;
+using SaasAiCrm.Application.Abstractions.Authentication;
+using SaasAiCrm.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwt = builder.Configuration.GetRequiredSection(JwtOptions.SectionName).Get<JwtOptions>()
@@ -12,6 +14,8 @@ var jwt = builder.Configuration.GetRequiredSection(JwtOptions.SectionName).Get<J
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

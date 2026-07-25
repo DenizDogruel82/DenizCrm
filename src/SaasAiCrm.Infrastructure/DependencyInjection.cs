@@ -24,6 +24,16 @@ public static class DependencyInjection
                     .EnableRetryOnFailure()));
         services.AddScoped<IUnitOfWork>(provider =>
             provider.GetRequiredService<CrmDbContext>());
+        services.AddScoped<ITenantRepository, TenantRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
+        services.AddScoped<ILeadRepository, LeadRepository>();
+        services.AddScoped<IOpportunityRepository, OpportunityRepository>();
+        services.AddScoped<IPipelineStageRepository, PipelineStageRepository>();
+        services.AddScoped<IActivityRepository, ActivityRepository>();
+        services.AddScoped<INoteRepository, NoteRepository>();
+        services.AddScoped<IAiInsightRepository, AiInsightRepository>();
+        services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
         services.AddOptions<JwtOptions>()
             .Bind(configuration.GetSection(JwtOptions.SectionName))

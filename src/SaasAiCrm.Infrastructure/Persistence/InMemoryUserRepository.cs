@@ -46,4 +46,7 @@ internal sealed class InMemoryUserRepository : IUserRepository
         _users.Add(user);
         return Task.CompletedTask;
     }
+
+    public void Update(User user) { }
+    public void Remove(User user) => _users.Remove(user);
 }
