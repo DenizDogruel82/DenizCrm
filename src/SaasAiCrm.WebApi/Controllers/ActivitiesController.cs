@@ -8,6 +8,8 @@ using SaasAiCrm.Domain.Enums;
 namespace SaasAiCrm.WebApi.Controllers;
 
 [ApiController, Authorize, Route("api/activities")]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+[ProducesResponseType(StatusCodes.Status403Forbidden)]
 public sealed class ActivitiesController(IMessageDispatcher dispatcher) : ControllerBase
 {
     [HttpGet]
