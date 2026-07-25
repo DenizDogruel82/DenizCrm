@@ -9,6 +9,8 @@ using SaasAiCrm.Application.Abstractions.Caching;
 using SaasAiCrm.Application.Abstractions.Communication;
 using SaasAiCrm.Infrastructure.Caching;
 using SaasAiCrm.Infrastructure.Email;
+using SaasAiCrm.Application.Abstractions.Ai;
+using SaasAiCrm.Infrastructure.Ai;
 
 namespace SaasAiCrm.Infrastructure;
 
@@ -48,6 +50,15 @@ public static class DependencyInjection
                 "SMTP host and sender address are required when email is enabled.")
             .ValidateOnStart();
         services.AddTransient<IEmailSender, SmtpEmailSender>();
+        services.AddOptions<GeminiOptions>()
+            .Bind(configuration.GetSection(GeminiOptions.SectionName));
+        services.AddHttpClient<IGenerativeAiService, GeminiService>((provider, client) =>
+        {
+            var options = provider.GetRequiredService<
+                Microsoft.Extensions.Options.IOptions<GeminiOptions>>().Value;
+            client.BaseAddress = new Uri(options.BaseUrl);
+            client.Timeout = TimeSpan.FromSeconds(60);
+        });
 
         services.AddOptions<JwtOptions>()
             .Bind(configuration.GetSection(JwtOptions.SectionName))

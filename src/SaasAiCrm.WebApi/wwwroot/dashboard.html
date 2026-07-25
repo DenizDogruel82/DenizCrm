@@ -128,6 +128,14 @@
 
       <section id="aiView" class="view">
         <div class="toolbar"><h2>AI İçgörüleri</h2><button id="newInsight" class="primary" type="button">Yeni içgörü</button></div>
+        <form id="geminiForm" class="editor">
+          <div class="panel-title"><h2>Gemini CRM Asistanı</h2><span class="online">● API</span></div>
+          <label class="ai-prompt">CRM verilerim hakkında sor
+            <textarea id="geminiPrompt" rows="4" maxlength="4000" placeholder="Örneğin: Satış ekibim için bugünün önceliklerini çıkar." required></textarea>
+          </label>
+          <div class="actions"><button id="geminiSubmit" class="primary" type="submit">Analiz oluştur</button></div>
+          <article id="geminiResult" class="ai-result hidden"></article>
+        </form>
         <div id="aiCards" class="cards"></div>
       </section>
 

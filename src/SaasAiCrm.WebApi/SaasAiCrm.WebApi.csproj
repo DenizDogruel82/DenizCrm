@@ -18,6 +18,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>SaasAiCrm-WebApi-5f25dc12-647c-48f8-8865-9798a1baedb9</UserSecretsId>
   </PropertyGroup>
 
 </Project>

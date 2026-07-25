@@ -563,6 +563,39 @@ document.querySelector("#newStage").addEventListener("click", () => openStageEdi
 document.querySelector("#newInsight").addEventListener("click", openInsightCreator);
 document.querySelector("#newUser").addEventListener("click", () => openUserEditor());
 
+document.querySelector("#geminiForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = document.querySelector("#geminiSubmit");
+  const result = document.querySelector("#geminiResult");
+  const context = JSON.stringify({
+    customerCount: customers.length,
+    activityCount: activities.length,
+    leadCount: leads.length,
+    opportunityCount: opportunities.length,
+    customers: customers.slice(0, 25).map(item => ({ name: item.name, industry: item.industry, city: item.city })),
+    leads: leads.slice(0, 25).map(item => ({ name: `${item.firstName} ${item.lastName}`, company: item.companyName, status: item.status, score: item.score })),
+    opportunities: opportunities.slice(0, 25).map(item => ({ title: item.title, amount: item.amount, currency: item.currency, status: item.status, probability: item.probability })),
+    activities: activities.slice(0, 25).map(item => ({ subject: item.subject, status: item.status, dueAtUtc: item.dueAtUtc }))
+  });
+
+  button.disabled = true;
+  button.textContent = "Gemini düşünüyor…";
+  result.classList.add("hidden");
+  try {
+    const response = await api("/api/ai-assistant/generate", {
+      method: "POST",
+      body: JSON.stringify({ prompt: document.querySelector("#geminiPrompt").value, context })
+    });
+    result.textContent = response.text;
+    result.classList.remove("hidden");
+  } catch (error) {
+    notify(error.message, true);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Analiz oluştur";
+  }
+});
+
 document.addEventListener("click", async event => {
   const id = name => event.target.dataset[name];
   try {
